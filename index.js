@@ -6,6 +6,8 @@ const sharp = require('sharp');
 const mongoose = require('mongoose');
 const path = require('path');
 const router = express.Router();
+const catRouters = require('./routers/catRouter');
+const fileRouters = require('./routers/fileRouter');
 const https = require('https');
 const fs = require('fs');
 const sslkey = fs.readFileSync('ssl-key.pem');
@@ -22,6 +24,8 @@ console.log(process.env);
 
 // Upload---------------------------------------------------------------------------------------------------------------
 const multer = require('multer');
+
+// storage to /public/uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         // callback
@@ -33,6 +37,7 @@ const storage = multer.diskStorage({
     }
 });
 
+// init upload
 const upload = multer ({
     storage: storage,
 }).single('image');
@@ -49,15 +54,26 @@ mongoose.connect(url, {userNewUrlParser: true}).then(() => {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-app.use(express.static('public'));
-
 app.get('/', function(req, res){
     console.log(req, res);
     console.log(req.query.myParam);
-    Demo.create({ test: 'Hello', more: 7}).then(post => {
-        console.log(post.id);
-        res.send('Created dummy data? ' + post)
-    })
+        res.send('Created dummy data');
+        //res.render('index');
+});
+
+app.post('/upload', function(req, res, next){
+    upload(req, res, (err) => {
+        if(err){
+            res.sendStatus(400);
+        } else{
+            if (req.file === undefined){
+                res.sendStatus(404);
+            } else {
+                console.log(req.file);
+                next();
+            }
+        }
+    });
 });
 
 // Middleware for thumbnails--------------------------------------------------------------------------------------------
@@ -65,7 +81,7 @@ app.use('/upload', function(req, res, next) {
     // do small 200x200 thumbnail
     sharp(req.file.path)
         .resize(200, 200)
-        .toFile('public/img/small/photo200x200.jpg', (err) => {
+        .toFile('public/img/small/' + Date.now() + '200x200.jpg', (err) => {
         });
     next();
 });
@@ -74,7 +90,7 @@ app.use('/upload', function(req, res, next) {
     // do medium 400x400 thumbnail
     sharp(req.file.path)
         .resize(400, 400)
-        .toFile('public/img/medium/photo400x400.jpg', (err) => {
+        .toFile('public/img/medium/' + Date.now() + '400x400.jpg', (err) => {
         });
     res.send(req.file);
     next();
@@ -87,9 +103,12 @@ app.use('/upload', function(req, res){
         .toFile('public/data.json', (err) => {
         });
 });
+
+
 //----------------------------------------------------------------------------------------------------------------------
 
 //app.listen(port, () => console.log(`Listening on port ${port}`));
 // http://localhost:3000/cats/...
-//app.use('/cats', catRouters);
+app.use('/cats', catRouters);
+app.use('/fileUpload', fileRouters);
 app.use(express.static('public'));

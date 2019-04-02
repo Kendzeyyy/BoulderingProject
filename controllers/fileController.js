@@ -2,8 +2,8 @@
 const File = require('../models/fileUpload');
 
 exports.file_list_get = () => {
-    return File.find().then((cats) => {
-        return cats;
+    return File.find().then((file) => {
+        return file;
     }).catch((err) => {
         console.log(err);
         return err;
