@@ -1,0 +1,119 @@
+'use strict'
+ 
+const express = require('express');
+const multer = require('multer');
+const mongoose = require('mongoose');
+const sharp = require('sharp');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config()
+ 
+// destination where images will be uploaded
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'upload-images/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + file.originalname);
+    }
+});
+ 
+const upload = multer({storage: storage});
+ 
+// mongoDB stuff
+const Schema = mongoose.Schema;
+ 
+const formSchema = new Schema({
+    category: String,
+    title: String,
+    description: String,
+    imagePath: String,
+    thumbnailPath: String,
+    coordinates: {
+        latitude: String,
+        longitude: String
+    }
+});
+ 
+const model = mongoose.model('week1', formSchema);
+ 
+// when connection to database is succesfull, start server
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/week1`).then(() => {
+    console.log("Connected to mongoDB succesfully!");
+ 
+    app.listen(process.env.APP_PORT, () => {
+        console.log("Server running on localhost:3000");
+    });
+}, err => {
+    console.log(process.env);
+    console.log('Error: ' + err );
+});
+ 
+// express methods
+const app = express();
+app.use(express.static('public'));
+ 
+app.get('/', (req, res) => {
+    res.send('hello there');
+});
+ 
+// upload
+app.post('/upload', upload.single('image'), (req, res, next) => {
+    console.log(req.file);
+    console.log("-----------------------------");
+    console.log(req.body);
+    next();
+});
+ 
+app.use('/upload', (req, res, next) => {
+    const body = req.body;
+    const file = req.file;
+ 
+    // make upload-images/thumbnail directory if it doesnt exist
+    if (!fs.existsSync('./upload-images/thumbnail')) {
+        fs.mkdir('./upload-images/thumbnail');
+    }
+ 
+    // do a thumbnail
+    const thumbnailOptions = {
+        options: {
+            width: 350,
+            height: 350,
+            withoutEnlargement: true
+        }
+    }
+ 
+    sharp(file.path).resize(thumbnailOptions).toFile(file.destination + 'thumbnail/' + file.filename, (err) => {
+        console.log(err);
+    });
+ 
+    // construct the schema that gets sent to database
+    const uploadSchema = {
+        category: body.category,
+        title: body.title,
+        description: body.description,
+        imagePath: file.path,
+        thumbnailPath: file.destination + 'thumbnail/' + file.filename,
+        coordinates: {
+            latitude: body.latitude,
+            longitude: body.longitude
+        }
+    };
+ 
+    model.create(uploadSchema).then( () => {
+        res.redirect('/gallery');
+    });
+});
+ 
+app.get('/getAll', (req, res) => {
+    model.find().then( all => {
+        res.send(all);
+    });
+});
+ 
+app.get('/gallery', (req, res) => {
+    res.sendFile(path.join(__dirname + '/public/gallery.html'));
+});
+ 
+// this is for serving images
+app.use('/upload-images',express.static('upload-images'));
