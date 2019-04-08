@@ -57,9 +57,9 @@ mongoose.connect(url, {userNewUrlParser: true}).then(() => {
 app.get('/', function(req, res){
     console.log(req, res);
     console.log(req.query.myParam);
-        res.sendStatus(200 + 'Created dummy data');
+        //res.sendStatus(200 + 'Created dummy data');
         //res.render('index');
-    res.redirect('/public/index.html');
+    res.redirect('/index.html');
 });
 
 app.post('/upload', function(req, res, next){
