@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Log In</title>
+    <title>Sign Up</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -12,21 +12,17 @@
 <body>
 <div class = "login">
     <div class = "glass">
-        <h2> Log In </h2>
+        <h2> Sign Up </h2>
         <!-- Input box -->
-        <form method="post" action="" id="loginForm">
-            <input type="text" name="username" placeholder="Enter Username" id="nameInput">
-            <input type ="password" name="password" placeholder="Enter Password" id="passwordInput">
-            <input type ="submit" name="login" value="Log In">
+        <form method="post" action="">
+            <input type="text" name="username" placeholder="Enter Username">
+            <input type ="password" name="password" placeholder="Enter Password">
+            <input type ="password" name="password2" placeholder="Enter Password Again">
+            <input type="submit" value="Next">
         </form>
 
-
         <div class="bottom-input">
-            <h5>New user?</h5>
-            <a href="Sign-up-site/Signup.html"></a>
-            <form method="get" action="Signup.html">
-                <input type="submit" value="Sign up">
-            </form>
+            <a href="./index.html"></a>
             <form method="get" action="index.html">
                 <input type="submit" value="Cancel">
             </form>
@@ -34,6 +30,5 @@
 
     </div>
 </div>
-<script src="js/logging.js"></script>
 </body>
 </html>
