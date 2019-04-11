@@ -1,8 +1,10 @@
 'use strict';
+// const fileController = require('../controllers/fileController');
+import * as fileController from "../controllers/fileController";
 const express = require('express');
 const router = express.Router();
-//const catController = require('../controllers/catController');
 const bodyParser = require('body-parser');
+const File = require('../models/fileUpload');
 
 router.get('/view', (req, res) => {
     res.sendStatus(200);
@@ -17,7 +19,7 @@ router.get('/add', function(req, res){
 router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
     const data = req.body;
     console.log(data);
-    catController.cat_create_post(data).then((result) => {
+    fileController.file_create_post(data).then((result) => {
         res.send(result);
     });
 });

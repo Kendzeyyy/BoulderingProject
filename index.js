@@ -37,14 +37,12 @@ const storage = multer.diskStorage({
     }
 });
 
-// init upload
+// init upload----------------------------------------------------------------------------------------------------------
 const upload = multer ({
     storage: storage,
 }).single('image');
 
-// ---------------------------------------------------------------------------------------------------------------------
-
-// Connect to mongodb
+// Connect to mongodb---------------------------------------------------------------------------------------------------
 mongoose.connect(url, {userNewUrlParser: true}).then(() => {
     console.log('Connected successfully.');
     https.createServer(options, app).listen(3000);
@@ -111,6 +109,7 @@ app.use('/upload', function(req, res){
 
 //app.listen(port, () => console.log(`Listening on port ${port}`));
 // http://localhost:3000/cats/...
-app.use('/cats', catRouters);
+//app.use('/cats', catRouters);
 app.use('/fileUpload', fileRouters);
 app.use(express.static('public'));
+app.use(express.static('modules'));

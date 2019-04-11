@@ -9,7 +9,7 @@ app.use('/upload', function(req, res, next) {
     // do small 200x200 thumbnail
     sharp(req.file.path)
         .resize(200, 200)
-        .toFile('public/img/small/photo200x200.jpg', (err) => {
+        .toFile('public/img/small/' + Date.now() + '200x200.jpg', (err) => {
         });
     next();
 });
@@ -18,7 +18,7 @@ app.use('/upload', function(req, res, next) {
     // do medium 400x400 thumbnail
     sharp(req.file.path)
         .resize(400, 400)
-        .toFile('public/img/medium/photo400x400.jpg', (err) => {
+        .toFile('public/img/medium/' + Date.now() + '400x400.jpg', (err) => {
         });
     res.send(req.file);
     next();
