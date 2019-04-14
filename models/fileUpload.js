@@ -7,6 +7,7 @@ const fileSchema = new Schema({
     category: String,
     title: String,
     description: String,
+    location: {type: String, enum: ['Salmisaari', 'Kalasatama', 'Espoo', 'Pasila', 'Herttoniemi', 'Konala']},
     image: String
 });
 

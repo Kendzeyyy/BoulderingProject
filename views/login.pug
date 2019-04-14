@@ -1,0 +1,26 @@
+doctype html
+html(lang='en')
+  head
+    title Log In
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Raleway')
+    link(rel='stylesheet', href='css/login.css')
+  body
+    .login
+      .glass
+        h2  Log In
+        // Input box
+        form#loginForm(method='post', action='')
+          input#nameInput(type='text', name='username', placeholder='Enter Username')
+          input#passwordInput(type='password', name='password', placeholder='Enter Password')
+          input(type='submit', name='login', value='Log In')
+        .bottom-input
+          h5 New user?
+          a(href='signup')
+          form(method='get', action='/signup')
+            input(type='submit', value='Sign up')
+          form(method='get', action='/home')
+            input(type='submit', value='Cancel')
+

@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+  head
+    title Sign Up
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Raleway')
+    link(rel='stylesheet', href='css/login.css')
+  body
+    .login
+      .glass
+        h2  Sign Up
+        // Input box
+        form(method='post', action='signup', enctype='multipart/form-data')
+          input(type='text', name='username', placeholder='Enter Username')
+          input(type='password', name='password', placeholder='Enter Password')
+          input(type='password', name='password2', placeholder='Enter Password Again')
+          input(type='submit', value='Next')
+        .bottom-input
+          a(href='index')
+          form(method='get', action='/home')
+            input(type='submit', value='Cancel')

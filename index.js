@@ -7,13 +7,14 @@ const mongoose = require('mongoose');
 const path = require('path');
 const router = express.Router();
 const catRouters = require('./routers/catRouter');
-const fileRouters = require('./routers/fileRouter');
+//const fileRouters = require('./routers/fileRouter');
 const https = require('https');
 const fs = require('fs');
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 const url = (`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`);
 
+app.set('view engine', 'pug');
 
 const options = {
     key: sslkey,
@@ -57,7 +58,7 @@ app.get('/', function(req, res){
     console.log(req.query.myParam);
         //res.sendStatus(200 + 'Created dummy data');
         //res.render('index');
-    res.redirect('/index.html');
+    res.redirect('/home');
 });
 
 app.post('/upload', function(req, res, next){
@@ -104,12 +105,48 @@ app.use('/upload', function(req, res){
         });
 });
 
-
 //----------------------------------------------------------------------------------------------------------------------
+
+app.get('/home', (req, res) => {
+    res.render('index.pug');
+});
+
+app.get('/login', (req, res) => {
+   res.render('login.pug');
+});
+
+app.get('/signup', (req, res) => {
+   res.render('signup.pug');
+});
+
+app.get('/kalasatama', (req, res) => {
+    res.render('kalasatama.pug');
+});
+
+app.get('/salmisaari', (req, res) => {
+    res.render('salmisaari.pug');
+});
+
+app.get('/espoo', (req, res) => {
+    res.render('espoo.pug');
+});
+
+app.get('/konala', (req, res) => {
+    res.render('konala.pug');
+});
+
+app.get('/pasila', (req, res) => {
+    res.render('pasila.pug');
+});
+
+app.get('/herttoniemi', (req, res) => {
+    res.render('herttoniemi.pug');
+});
+
 
 //app.listen(port, () => console.log(`Listening on port ${port}`));
 // http://localhost:3000/cats/...
 //app.use('/cats', catRouters);
-app.use('/fileUpload', fileRouters);
+//app.use('/fileUpload', fileRouters);
 app.use(express.static('public'));
 app.use(express.static('modules'));
