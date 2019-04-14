@@ -119,28 +119,30 @@ app.get('/signup', (req, res) => {
    res.render('signup.pug');
 });
 
-app.get('/kalasatama', (req, res) => {
-    res.render('kalasatama.pug');
+app.get('/salmisaari', (req, res) => {
+    res.render('salmisaari');
+    console.log('get/salmisaari');
 });
 
-app.get('/salmisaari', (req, res) => {
-    res.render('salmisaari.pug');
+app.get('/kalasatama', (req, res) => {
+    res.render('kalasatama');
+    console.log('get/kalasatama');
 });
 
 app.get('/espoo', (req, res) => {
-    res.render('espoo.pug');
+    res.render('espoo');
 });
 
 app.get('/konala', (req, res) => {
-    res.render('konala.pug');
+    res.render('konala');
 });
 
 app.get('/pasila', (req, res) => {
-    res.render('pasila.pug');
+    res.render('pasila');
 });
 
 app.get('/herttoniemi', (req, res) => {
-    res.render('herttoniemi.pug');
+    res.render('herttoniemi');
 });
 
 
