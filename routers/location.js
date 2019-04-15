@@ -22,19 +22,19 @@ router.get('/kalasatama', (req, res) => {
     console.log('KALASATAMA GET');
 });
 
-router.get('/loc3', (req, res) => {
+router.get('/espoo', (req, res) => {
     res.render('espoo');
 });
 
-router.get('/loc4', (req, res) => {
+router.get('/konala', (req, res) => {
     res.render('konala');
 });
 
-router.get('/loc5', (req, res) => {
+router.get('/pasila', (req, res) => {
     res.render('pasila');
 });
 
-router.get('/loc6', (req, res) => {
+router.get('/herttoniemi', (req, res) => {
     res.render('herttoniemi');
 });
 

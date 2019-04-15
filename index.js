@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const router = express.Router();
 const catRouters = require('./routers/catRouter');
-//const fileRouters = require('./routers/fileRouter');
+const fileRouters = require('./routers/fileRouter');
 const https = require('https');
 const fs = require('fs');
 const sslkey = fs.readFileSync('ssl-key.pem');
@@ -54,10 +54,6 @@ mongoose.connect(url, {userNewUrlParser: true}).then(() => {
 // ---------------------------------------------------------------------------------------------------------------------
 
 app.get('/', function(req, res){
-    console.log(req, res);
-    console.log(req.query.myParam);
-        //res.sendStatus(200 + 'Created dummy data');
-        //res.render('index');
     res.redirect('/home');
 });
 
@@ -70,7 +66,7 @@ app.post('/upload', function(req, res, next){
                 res.sendStatus(404);
             } else {
                 console.log(req.file);
-                res.redirect('/index.html');
+                //res.redirect('/home');
                 next();
             }
         }
@@ -98,8 +94,10 @@ app.use('/upload', function(req, res, next) {
 });
 
 app.use('/upload', function(req, res){
-    // set req.file path to data.json
-    //req.file = file;
+    const newFile = new File();
+    newFile.img.data = fs.readFileSync(req.files.userPhoto.path);
+    newFile.img.contentType = 'image/jpg/png';
+    newFile.save();
     sharp(req.file.path)
         .toFile('public/data.json', (err) => {
         });
@@ -145,10 +143,13 @@ app.get('/herttoniemi', (req, res) => {
     res.render('herttoniemi');
 });
 
+app.get('/add', (req, res) => {
+   res.redirect('upload.html');
+});
 
 //app.listen(port, () => console.log(`Listening on port ${port}`));
 // http://localhost:3000/cats/...
 //app.use('/cats', catRouters);
-//app.use('/fileUpload', fileRouters);
+app.use('/file', fileRouters);
 app.use(express.static('public'));
 app.use(express.static('modules'));

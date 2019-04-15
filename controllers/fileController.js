@@ -11,7 +11,15 @@ exports.file_list_get = () => {
 };
 
 exports.file_create_post = (data) => {
+    console.log(data);
     return File.create(data).then((item) => {
+        File.create({
+            title: req.body.title,
+            category: req.body.category,
+            description: req.body.description,
+            location: req.body.location,
+            image: req.body.image
+        });
         return {status: 'Save OK: ' + item.id};
     }).catch((err) => {
         console.log(err);
@@ -20,30 +28,11 @@ exports.file_create_post = (data) => {
 };
 
 exports.file_number_get = () => {
-    return File.find().exec().then((cats) => {
-        console.log(cats.length);
-        return cats.length;
+    return File.find().exec().then((files) => {
+        console.log(files.length);
+        return files.length;
     }).catch((err) => {
         console.log(err);
         return err;
     });
 };
-
-exports.file_sort_get = () => {
-    return File.find().
-    where('weight').
-    gt(3).
-    where('age').
-    gt(4).
-    where('gender').
-    equals('male').
-    exec().
-    then((cats) => {
-        return cats;
-    }).
-    catch((err) => {
-        console.log(err);
-        return err;
-    });
-};
-
