@@ -95,15 +95,15 @@ app.use('/upload', function(req, res, next) {
 
 app.use('/upload', function(req, res){
     const newFile = new File();
-    newFile.img.data = fs.readFileSync(req.files.userPhoto.path);
-    newFile.img.contentType = 'image/jpg/png';
+    newFile.img.data = fs.readFileSync(req.files.path);
+    //newFile.img.contentType = 'image/jpg/png';
     newFile.save();
     sharp(req.file.path)
         .toFile('public/data.json', (err) => {
         });
 });
 
-//----------------------------------------------------------------------------------------------------------------------
+//PUG-------------------------------------------------------------------------------------------------------------------
 
 app.get('/home', (req, res) => {
     res.render('index.pug');
@@ -119,12 +119,10 @@ app.get('/signup', (req, res) => {
 
 app.get('/salmisaari', (req, res) => {
     res.render('salmisaari');
-    console.log('get/salmisaari');
 });
 
 app.get('/kalasatama', (req, res) => {
     res.render('kalasatama');
-    console.log('get/kalasatama');
 });
 
 app.get('/espoo', (req, res) => {
@@ -144,12 +142,11 @@ app.get('/herttoniemi', (req, res) => {
 });
 
 app.get('/add', (req, res) => {
-   res.redirect('upload.html');
+   res.render('upload');
 });
 
 //app.listen(port, () => console.log(`Listening on port ${port}`));
-// http://localhost:3000/cats/...
-//app.use('/cats', catRouters);
+// http://localhost:3000/file/...
 app.use('/file', fileRouters);
 app.use(express.static('public'));
 app.use(express.static('modules'));

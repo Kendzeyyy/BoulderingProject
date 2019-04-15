@@ -69,16 +69,15 @@ router.use('/upload', function(req, res, next) {
     next();
 });
 
-/*
-app.use('/upload', function(req, res){
+router.use('/upload', function(req, res){
     const newFile = new File();
-    newFile.img.data = fs.readFileSync(req.files.userPhoto.path);
-    newFile.img.contentType = 'image/jpg/png';
+    newFile.img.data = fs.readFileSync(req.files.path);
+    //newFile.img.contentType = 'image/jpg/png';
     newFile.save();
+    console.log('image saved to mongodb');
     sharp(req.file.path)
         .toFile('public/data.json', (err) => {
         });
 });
-*/
 
 module.exports = router;
