@@ -58,7 +58,6 @@ app.post('/upload', function(req, res, next){
                 res.sendStatus(404);
             } else {
                 console.log(req.file);
-                res.redirect('/');
                 next();
             }
         }
@@ -96,6 +95,13 @@ app.use('/upload', (req, res) => {
         location: body.location,
         image: body.image
     });
+
+    const data = JSON.stringify(imageModel, null, 2);
+    fs.writeFile('public/data.json', data, (err) => {
+        if (err) throw err;
+        console.log('Data written to data.json file');
+    });
+
     const newFile = new File();
     newFile.image.data = fs.readFileSync(file.path);
     newFile.image.contentType = 'image/jpeg';

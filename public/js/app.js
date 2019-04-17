@@ -4,11 +4,15 @@ fetch('./file/all').then((response) => {
 }).then ((json) => {
     console.log(json);
     json.forEach((file) => {
-        // all infos from list
-        document.querySelector('#files').innerHTML += `<ul> ${file.title} 
+        // all infos from file list
+        document.querySelector('#files').innerHTML += `<li> 
+                                                                  <ul>
+                                                                    ${file.title} 
                                                                     ${file.description} 
                                                                     ${file.category} 
                                                                     ${file.location} 
-                                                                    ${file.image}</ul><br>`;
+                                                                    ${file.image}
+                                                                  </ul>
+                                                               </li><br>`;
     });
 });
