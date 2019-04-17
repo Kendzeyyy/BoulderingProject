@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const fileController = require('../controllers/fileController');
+const imageModel = require ('../models/fileUpload');
 const File = require('../models/fileUpload');
 
 // get all files
@@ -25,13 +26,13 @@ router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
 router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
    console.log('reqbody: ' + req.body);
    console.log('reqbodyname: ' + req.body.name);
-   const editedFile = {
-       title: req.body.title,
-       category: req.body.category,
-       description: req.body.description,
-       location: req.body.location,
-       image: req.body.image
-   }
+    imageModel.create({
+        title: req.body.title,
+        category: req.body.category,
+        description: req.body.description,
+        location: req.body.location,
+        //image: req.body.image
+    });
 });
 
 router.post('/upload', function(req, res, next){
@@ -70,14 +71,26 @@ router.use('/upload', function(req, res, next) {
 });
 
 router.use('/upload', function(req, res){
+    console.log(req.body);
+    console.log(req.body.path + req.body.filename);
+    imageModel.create({
+        title: req.body.title,
+        category: req.body.category,
+        description: req.body.description,
+        location: req.body.location,
+        //image: req.body.image
+    });
     const newFile = new File();
     newFile.img.data = fs.readFileSync(req.files.path);
     //newFile.img.contentType = 'image/jpg/png';
     newFile.save();
-    console.log('image saved to mongodb');
     sharp(req.file.path)
         .toFile('public/data.json', (err) => {
         });
+});
+
+router.get('/add', (req, res) => {
+    res.render('upload');
 });
 
 module.exports = router;

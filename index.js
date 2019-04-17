@@ -5,16 +5,16 @@ const app = express();
 const sharp = require('sharp');
 const mongoose = require('mongoose');
 const path = require('path');
-const router = express.Router();
-const catRouters = require('./routers/catRouter');
+const multer = require('multer');
+const location = require('./routers/location');
 const fileRouters = require('./routers/fileRouter');
+const imageModel = require ('./models/fileUpload');
 const https = require('https');
 const fs = require('fs');
+const helmet = require('helmet');
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
-const url = (`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`);
-
-app.set('view engine', 'pug');
+const mongoUrl = (`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`);
 
 const options = {
     key: sslkey,
@@ -22,9 +22,6 @@ const options = {
 };
 
 console.log(process.env);
-
-// Upload---------------------------------------------------------------------------------------------------------------
-const multer = require('multer');
 
 // storage to /public/uploads
 const storage = multer.diskStorage({
@@ -44,19 +41,14 @@ const upload = multer ({
 }).single('image');
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
-mongoose.connect(url, {userNewUrlParser: true}).then(() => {
+mongoose.connect(mongoUrl, {userNewUrlParser: true}).then(() => {
     console.log('Connected successfully.');
     https.createServer(options, app).listen(3000);
 }, err => {
     console.log('Connection to db failed: ' + err);
 });
 
-// ---------------------------------------------------------------------------------------------------------------------
-
-app.get('/', function(req, res){
-    res.redirect('/home');
-});
-
+// Upload---------------------------------------------------------------------------------------------------------------
 app.post('/upload', function(req, res, next){
     upload(req, res, (err) => {
         if(err){
@@ -66,14 +58,13 @@ app.post('/upload', function(req, res, next){
                 res.sendStatus(404);
             } else {
                 console.log(req.file);
-                //res.redirect('/home');
+                res.redirect('/');
                 next();
             }
         }
     });
 });
 
-// Middleware for thumbnails--------------------------------------------------------------------------------------------
 app.use('/upload', function(req, res, next) {
     // do small 200x200 thumbnail
     sharp(req.file.path)
@@ -93,17 +84,32 @@ app.use('/upload', function(req, res, next) {
     next();
 });
 
-app.use('/upload', function(req, res){
+app.use('/upload', (req, res) => {
+    const body = req.body;
+    const file = req.file;
+    console.log(body);
+    console.log(body.path + body.filename);
+    imageModel.create({
+        title: body.title,
+        category: body.category,
+        description: body.description,
+        location: body.location,
+        image: body.image
+    });
     const newFile = new File();
-    newFile.img.data = fs.readFileSync(req.files.path);
-    //newFile.img.contentType = 'image/jpg/png';
+    newFile.image.data = fs.readFileSync(file.path);
+    newFile.image.contentType = 'image/jpeg';
     newFile.save();
-    sharp(req.file.path)
-        .toFile('public/data.json', (err) => {
-        });
+    sharp(file.path).toFile('public/data.json', (err) => {
+    });
 });
 
 //PUG-------------------------------------------------------------------------------------------------------------------
+
+app.get('/', function(req, res){
+    res.redirect('/home');
+});
+
 
 app.get('/home', (req, res) => {
     res.render('index.pug');
@@ -145,8 +151,10 @@ app.get('/add', (req, res) => {
    res.render('upload');
 });
 
-//app.listen(port, () => console.log(`Listening on port ${port}`));
-// http://localhost:3000/file/...
+// Middleware
+app.set('view engine', 'pug');
 app.use('/file', fileRouters);
+app.use('/location', location);
 app.use(express.static('public'));
 app.use(express.static('modules'));
+app.use(helmet());
