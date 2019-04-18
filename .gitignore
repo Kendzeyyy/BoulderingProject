@@ -59,3 +59,13 @@ typings/
 
 # next.js build output
 .next
+
+public/uploads/
+public/img/
+
+ssl-cert.pem
+ssl-key.pem
+./ssl-cert.pem
+./ssl-key.pem
+/ssl-cert.perm
+/ssl-key.pem

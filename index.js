@@ -116,7 +116,6 @@ app.get('/', function(req, res){
     res.redirect('/home');
 });
 
-
 app.get('/home', (req, res) => {
     res.render('index.pug');
 });
@@ -127,30 +126,6 @@ app.get('/login', (req, res) => {
 
 app.get('/signup', (req, res) => {
    res.render('signup.pug');
-});
-
-app.get('/salmisaari', (req, res) => {
-    res.render('salmisaari');
-});
-
-app.get('/kalasatama', (req, res) => {
-    res.render('kalasatama');
-});
-
-app.get('/espoo', (req, res) => {
-    res.render('espoo');
-});
-
-app.get('/konala', (req, res) => {
-    res.render('konala');
-});
-
-app.get('/pasila', (req, res) => {
-    res.render('pasila');
-});
-
-app.get('/herttoniemi', (req, res) => {
-    res.render('herttoniemi');
 });
 
 app.get('/add', (req, res) => {

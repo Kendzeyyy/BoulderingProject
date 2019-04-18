@@ -26,13 +26,16 @@ router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
 router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
    console.log('reqbody: ' + req.body);
    console.log('reqbodyname: ' + req.body.name);
+    imageModel.create(req.body);
+    /*
     imageModel.create({
-        title: req.body.title,
-        category: req.body.category,
-        description: req.body.description,
-        location: req.body.location,
-        //image: req.body.image
+        title: body.title,
+        category: body.category,
+        description: body.description,
+        location: body.location,
+        image: body.image
     });
+     */
 });
 
 router.post('/upload', function(req, res, next){
@@ -44,7 +47,7 @@ router.post('/upload', function(req, res, next){
                 res.sendStatus(404);
             } else {
                 console.log(req.file);
-                res.redirect('/home');
+                res.sendStatus(200);
                 next();
             }
         }
