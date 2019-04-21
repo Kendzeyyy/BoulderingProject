@@ -129,7 +129,15 @@ app.get('/signup', (req, res) => {
 });
 
 app.get('/add', (req, res) => {
-   res.render('upload');
+   res.render('upload.pug');
+});
+
+app.get('/edit', (req, res) => {
+    res.render('edit.pug');
+});
+
+app.get('/delete', (req, res) => {
+    res.render('delete.pug');
 });
 
 // Middleware

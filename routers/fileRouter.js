@@ -6,14 +6,14 @@ const fileController = require('../controllers/fileController');
 const imageModel = require ('../models/fileUpload');
 const File = require('../models/fileUpload');
 
-// get all files
+// get all files--------------------------------------------------------------------------------------------------------
 router.get('/all', (req, res) => {
     fileController.file_list_get().then((result) => {
        res.send(result);
     });
 });
 
-// create new post
+// create new post------------------------------------------------------------------------------------------------------
 router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
     const data = req.body;
     console.log(data);
@@ -23,19 +23,25 @@ router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
     res.send({type: 'POST from fileRouter'});
 });
 
-router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
-   console.log('reqbody: ' + req.body);
-   console.log('reqbodyname: ' + req.body.name);
+router.post('/edit', bodyParser.urlencoded({extended: true}), (req, res) => {
+    console.log('reqbody: ' + req.body);
+    console.log('reqbodyname: ' + req.body.name);
     imageModel.create(req.body);
-    /*
-    imageModel.create({
-        title: body.title,
-        category: body.category,
-        description: body.description,
-        location: body.location,
-        image: body.image
-    });
-     */
+
+    File.find()
+        .where('name').equals(req.body.name)
+        .then(
+            id =>{
+                console.log('THIS IS THE ID' + id);
+                Cat.updateOne(
+                    imageModel.create(req.body)).then(c => {
+                    res.send('File edited: ' + req.body.name);
+                }, err => {
+                    res.send('Error: ' + err);
+                });
+            }, err => {
+                res.send('Error: ' + err);
+            });
 });
 
 router.post('/upload', function(req, res, next){
@@ -76,13 +82,8 @@ router.use('/upload', function(req, res, next) {
 router.use('/upload', function(req, res){
     console.log(req.body);
     console.log(req.body.path + req.body.filename);
-    imageModel.create({
-        title: req.body.title,
-        category: req.body.category,
-        description: req.body.description,
-        location: req.body.location,
-        //image: req.body.image
-    });
+    imageModel.create(req.body);
+
     const newFile = new File();
     newFile.img.data = fs.readFileSync(req.files.path);
     //newFile.img.contentType = 'image/jpg/png';
@@ -94,6 +95,39 @@ router.use('/upload', function(req, res){
 
 router.get('/add', (req, res) => {
     res.render('upload');
+});
+
+// update by id---------------------------------------------------------------------------------------------------------
+router.put('/edit/:id', bodyParser.urlencoded({extended: true}), (req, res) => {
+    console.log('EDIT');
+    console.log(req.body);
+    const id = req.params._id;
+    //const id = req.body._id;
+    console.log(id);
+    imageModel.findByIdAndUpdate({_id: id}, req.body).then(function () {
+        imageModel.findOne({_id: req.params.id}).then(function (file) {
+            res.send(file);
+            imageModel.create(req.body);
+        });
+    });
+    res.send({type: 'UPDATE'});
+});
+
+// delete by id---------------------------------------------------------------------------------------------------------
+router.delete('/delete', bodyParser.urlencoded({extended: true}), (req, res) => {
+    console.log('DELETE');
+    console.log(req.body);
+    const id = req.body._id;
+    //const id = req.body._id;
+    console.log(id);
+    File.findByIdAndRemove({_id: id}).then(file => {
+        //res.send(file);
+        //res.redirect('/home');
+        res.sendStatus(200);
+    }, err => {
+        res.send('Error ' + err);
+    });
+    console.log('executed delete method');
 });
 
 module.exports = router;

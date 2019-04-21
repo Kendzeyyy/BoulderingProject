@@ -1,0 +1,10 @@
+extends layout
+block content
+  form(action='delete?_method=DELETE' method='post' enctype='application/x-www-form-urlencoded')
+  h1 Delete post
+  form
+    | ID:
+    input(type='text', name='_id', placeholder='5c9ddeb1...')
+    br
+    input(type='hidden' name='_method' value='DELETE')
+    input(type='submit')

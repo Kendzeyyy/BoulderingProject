@@ -7,10 +7,10 @@ fetch('./file/all').then((response) => {
         // all infos from file list
         document.querySelector('#files').innerHTML += `<li> 
                                                                   <ul>
-                                                                    ${file.title} 
-                                                                    ${file.description} 
-                                                                    ${file.category} 
-                                                                    ${file.location} 
+                                                                    <h3>${file.title}</h3><br>
+                                                                    <p>${file.description}</p><br>
+                                                                    <p>${file.category}</p><br>
+                                                                    <p>${file.location}</p><br>
                                                                     ${file.image}
                                                                   </ul>
                                                                </li><br>`;

@@ -1,0 +1,18 @@
+extends layout.pug
+block content
+    form(action='/edit', method='post', enctype='multipart/form-data')
+    h1 Edit post
+    form
+        | Title:
+        input(type='text', name='name')
+        br
+        |   Category:
+        input(type='text', name='gategory', placeholder='Kiipeilyareena / Boulderkeskus')
+        br
+        |   Description:
+        input(type='text', name='description')
+        br
+        |   Location:
+        input(type='text', name='location', placeholder='Salmisaari, Espoo...')
+        br
+        input(type='submit')
