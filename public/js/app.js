@@ -6,12 +6,13 @@ fetch('./file/all').then((response) => {
     json.forEach((file) => {
         // all infos from file list
         document.querySelector('#files').innerHTML += `<li> 
-                                                                  <ul>
-                                                                    <h3>${file.title}</h3><br>
+                                                                  <ul>                                                                
+                                                                    <h2>${file.title}</h2><br>     
+                                                                    <img src="uploads/${file.imagename}">                                                               
                                                                     <p>${file.description}</p><br>
                                                                     <p>${file.category}</p><br>
-                                                                    <p>${file.location}</p><br>
-                                                                    <img src="uploads/${file.image}">
+                                                                    <p>${file.location}</p><br>                                                                  
+                                                                    <!--<h6>${file._id}</h6>-->
                                                                   </ul>
                                                                </li><br>`;
     });

@@ -4,7 +4,20 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const fileController = require('../controllers/fileController');
 const imageModel = require ('../models/fileUpload');
-const File = require('../models/fileUpload');
+const methodOverride = require('method-override');
+
+router.use(bodyParser.json());
+router.use(express.static('public'));
+router.use(methodOverride('_method'));  //for overriding post to get patch and delete
+router.use(methodOverride('X-HTTP-Method'));
+router.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        const method = req.body._method;
+        delete req.body._method;
+        return method;
+    }
+}));
 
 // get all files--------------------------------------------------------------------------------------------------------
 router.get('/all', (req, res) => {
@@ -12,6 +25,21 @@ router.get('/all', (req, res) => {
        res.send(result);
     });
 });
+
+router.get('/add', (req, res) => {
+    res.render('upload.pug');
+});
+
+router.get('/edit', (req, res) => {
+    res.render('edit.pug');
+});
+
+router.get('/delete', (req, res) => {
+    res.render('delete.pug');
+    console.log('in router.get delete');
+
+});
+
 
 // create new post------------------------------------------------------------------------------------------------------
 router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
@@ -93,9 +121,6 @@ router.use('/upload', function(req, res){
         });
 });
 
-router.get('/add', (req, res) => {
-    res.render('upload');
-});
 
 // update by id---------------------------------------------------------------------------------------------------------
 router.put('/edit/:id', bodyParser.urlencoded({extended: true}), (req, res) => {
@@ -118,12 +143,11 @@ router.delete('/delete', bodyParser.urlencoded({extended: true}), (req, res) => 
     console.log('DELETE');
     console.log(req.body);
     const id = req.body._id;
-    //const id = req.body._id;
     console.log(id);
-    File.findByIdAndRemove({_id: id}).then(file => {
+    imageModel.findOneAndDelete({_id: id}).then(file => {
+        res.redirect('/home');
         //res.send(file);
-        //res.redirect('/home');
-        res.sendStatus(200);
+        //res.sendStatus(200);
     }, err => {
         res.send('Error ' + err);
     });

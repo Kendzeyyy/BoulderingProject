@@ -9,7 +9,8 @@ const fileSchema = new Schema({
     description: String,
     location: String,
     //location: {type: String, enum: ['Salmisaari', 'Kalasatama', 'Espoo', 'Pasila', 'Herttoniemi', 'Konala']},
-    image: {data: Buffer, contentType: String}
+    imageurl: {data: Buffer, contentType: String},
+    imagename: String
 });
 
 module.exports = mongoose.model('File', fileSchema);

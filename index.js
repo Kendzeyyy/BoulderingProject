@@ -93,7 +93,8 @@ app.use('/upload', (req, res) => {
         category: body.category,
         description: body.description,
         location: body.location,
-        image: body.image
+        imageurl: file.path,
+        imagename: file.filename
     });
 
     const data = JSON.stringify(imageModel, null, 2);
@@ -130,14 +131,6 @@ app.get('/signup', (req, res) => {
 
 app.get('/add', (req, res) => {
    res.render('upload.pug');
-});
-
-app.get('/edit', (req, res) => {
-    res.render('edit.pug');
-});
-
-app.get('/delete', (req, res) => {
-    res.render('delete.pug');
 });
 
 // Middleware
