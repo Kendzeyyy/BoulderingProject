@@ -11,7 +11,7 @@ fetch('./file/all').then((response) => {
                                                                     <p>${file.description}</p><br>
                                                                     <p>${file.category}</p><br>
                                                                     <p>${file.location}</p><br>
-                                                                    ${file.image}
+                                                                    <img src="uploads/${file.image}">
                                                                   </ul>
                                                                </li><br>`;
     });
