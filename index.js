@@ -12,14 +12,16 @@ const imageModel = require ('./models/fileUpload');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
-const sslkey = fs.readFileSync('ssl-key.pem');
-const sslcert = fs.readFileSync('ssl-cert.pem');
+//const sslkey = fs.readFileSync('ssl-key.pem');
+//const sslcert = fs.readFileSync('ssl-cert.pem');
 const mongoUrl = (`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`);
 
+/*
 const options = {
     key: sslkey,
     cert: sslcert
 };
+ */
 
 console.log(process.env);
 
