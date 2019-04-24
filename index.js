@@ -12,7 +12,7 @@ const imageModel = require ('./models/fileUpload');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
-//const mongoUrl = (`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`);
+const mongoUrl = (`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`);
 
 /*
 const sslkey = fs.readFileSync('ssl-key.pem');
@@ -43,7 +43,7 @@ const upload = multer ({
 }).single('image');
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`, {userNewUrlParser: true}).then(() => {
+mongoose.connect(mongoUrl, { userNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
     https.createServer(options, app).listen(3000);
 }, err => {
