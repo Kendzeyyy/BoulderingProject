@@ -12,9 +12,8 @@ const imageModel = require ('./models/fileUpload');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
-const mongoUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}/admin`
 
-/*
+/* Commenting out while using Jelastic
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 const options = {
@@ -44,23 +43,13 @@ const upload = multer ({
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
 
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/admin`, { useNewUrlParser: true }).then(() => {
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/BoulderingProject`, { useNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
     //https.createServer(options, app).listen(process.env.APP_PORT);
     app.listen(process.env.APP_PORT);
 }, err => {
     console.log('Connection to db failed :( ' + err);
 });
-
-/*
-mongoose.connect(mongoUrl, { userNewUrlParser: true }).then(() => {
-    console.log('Connected successfully.');
-    //https.createServer(options, app).listen(3000);
-    app.listen(process.env.APP_PORT);
-}, err => {
-    console.log('Connection to db failed: ' + err);
-});
- */
 
 // Upload---------------------------------------------------------------------------------------------------------------
 app.post('/upload', function(req, res, next){
