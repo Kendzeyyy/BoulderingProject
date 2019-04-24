@@ -43,16 +43,16 @@ const upload = multer ({
 }).single('image');
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
-/*
+
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/admin`, { useNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
-    //https.createServer(options, app).listen(process.env.APP_PORT);  //not w jelastic
-    app.listen(process.env.APP_PORT);     //yes w jelastic
+    //https.createServer(options, app).listen(process.env.APP_PORT);
+    app.listen(process.env.APP_PORT);
 }, err => {
     console.log('Connection to db failed :( ' + err);
 });
- */
 
+/*
 mongoose.connect(mongoUrl, { userNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
     //https.createServer(options, app).listen(3000);
@@ -60,6 +60,7 @@ mongoose.connect(mongoUrl, { userNewUrlParser: true }).then(() => {
 }, err => {
     console.log('Connection to db failed: ' + err);
 });
+ */
 
 // Upload---------------------------------------------------------------------------------------------------------------
 app.post('/upload', function(req, res, next){
