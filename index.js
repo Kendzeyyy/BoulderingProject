@@ -150,6 +150,7 @@ app.get('/add', (req, res) => {
 
 // Middleware
 app.set('view engine', 'pug');
+app.enable('trust proxy');
 app.use('/file', fileRouters);
 app.use('/location', location);
 app.use(express.static('public'));
