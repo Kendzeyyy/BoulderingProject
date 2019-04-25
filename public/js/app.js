@@ -12,7 +12,7 @@ fetch('./file/all').then((response) => {
                                                                     <p>${file.description}</p><br>
                                                                     <p>${file.category}</p><br>
                                                                     <p>${file.location}</p><br>                                                                  
-                                                                    <!--<h6>${file._id}</h6>-->
+                                                                    <h6>${file._id}</h6>
                                                                   </ul>
                                                                </li><br>`;
     });
