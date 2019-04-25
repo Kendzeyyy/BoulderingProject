@@ -1,8 +1,24 @@
-extends layout
-block content
-  h1 Delete post
-  form(action='delete?_method=DELETE' method='post' enctype="application/x-www-form-urlencoded")
-    | ID:
-    input(type='text' name='_id' placeholder='5cbda2f04b...')
-    br
-    input(type='submit')
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Raleway')
+    link(rel='stylesheet', href='/css/upload.css')
+    title Upload image
+  body
+    header
+    .upload
+      .glass
+        h1(align='center') Delete post
+        .fileupload
+          form(action='delete?_method=DELETE' method='post' enctype="application/x-www-form-urlencoded")
+            | ID:
+            input(type='text' name='_id' placeholder='5cbda2f04b...')
+            br
+            input(type='submit')
+          .bottom-input
+            a(href='index.pug')
+            form(method='get', action='/home')
+              input(type='submit', value='Cancel')
