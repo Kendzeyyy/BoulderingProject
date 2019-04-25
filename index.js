@@ -13,7 +13,7 @@ const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
 
-/* Commenting out while using Jelastic
+/* Commented out for Jelastic
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 const options = {
@@ -21,6 +21,7 @@ const options = {
     cert: sslcert
 };
  */
+
 
 console.log(process.env);
 
@@ -45,20 +46,17 @@ const upload = multer ({
 //                                                                                                                    /admin
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/BoulderingProject`, { useNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
-    //https.createServer(options, app).listen(process.env.APP_PORT);
-    app.listen(process.env.APP_PORT);
+    //https.createServer(options, app).listen(process.env.APP_PORT);        // Local
+    app.listen(process.env.APP_PORT);                                       // Jelastic
 }, err => {
     console.log('Connection to db failed :( ' + err);
 });
 
+// https redirection
 app.use((req, res, next) => {
     if (req.secure) {
-        // request was via https, so do no special handling
-        //console.log('https was already in use, great!');
         next();
     } else {
-        // request was via http, so redirect to https
-        // console.log('redirection to https was used!!!');
         res.redirect('https://' + req.headers.host + req.url);
     }
 });
@@ -117,13 +115,6 @@ app.use('/upload', (req, res) => {
     fs.writeFile('public/data.json', data, (err) => {
         if (err) throw err;
         console.log('Data written to data.json file');
-    });
-
-    const newFile = new File();
-    newFile.image.data = fs.readFileSync(file.path);
-    newFile.image.contentType = 'image/jpeg';
-    newFile.save();
-    sharp(file.path).toFile('public/data.json', (err) => {
     });
 });
 

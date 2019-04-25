@@ -5,15 +5,15 @@ fetch('./file/all').then((response) => {
     console.log(json);
     json.forEach((file) => {
         // all infos from file list
-        document.querySelector('#files').innerHTML += `<li> 
+        document.querySelector('#files').innerHTML += `<li class="gallery"> 
                                                                   <ul>                                                                
-                                                                    <h2>${file.title}</h2><br>     
-                                                                    <img src="uploads/${file.imagename}">                                                               
-                                                                    <p>${file.description}</p><br>
-                                                                    <p>${file.category}</p><br>
-                                                                    <p>${file.location}</p><br>                                                                  
-                                                                    <h6>${file._id}</h6>
+                                                                    <h2>${file.title}</h2>   
+                                                                    <img src="uploads/${file.imagename}" width="620" height="auto">                                                               
+                                                                    <p>${file.description}</p>
+                                                                    <p>${file.category}</p>
+                                                                    <p>${file.location}</p>                                                                 
+                                                                    <h6>ID: ${file._id}</h6>
                                                                   </ul>
-                                                               </li><br>`;
+                                                               </li>`;
     });
 });
