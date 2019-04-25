@@ -19,7 +19,10 @@ html(lang='en')
             input(type='text', name='title')
             br
             |                     Category:
-            input(type='text', name='category')
+            input(list='category', name='category')
+            datalist#category
+              option(value='Salmisaari')
+              option(value='Kalasatama')
             br
             |                     Description:
             input(type='text', name='description')
