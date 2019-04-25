@@ -43,7 +43,7 @@ const upload = multer ({
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
 //                                                                                                                    /admin
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/admin`, { useNewUrlParser: true }).then(() => {
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/BoulderingProject`, { useNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
     //https.createServer(options, app).listen(process.env.APP_PORT);
     app.listen(process.env.APP_PORT);
