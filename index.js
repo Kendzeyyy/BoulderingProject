@@ -67,7 +67,8 @@ app.use((req, res, next) => {
 app.post('/upload', function(req, res, next){
     upload(req, res, (err) => {
         if(err){
-            res.sendStatus(400);
+            //res.sendStatus(400);
+            res.send(err);
         } else{
             if (req.file === undefined){
                 res.sendStatus(404);
