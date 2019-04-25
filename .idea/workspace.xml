@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3871f063-5656-454c-8efb-259643b5dac0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/delete.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/delete.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/edit.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/edit.pug" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="306">
+              <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -98,10 +96,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/delete.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
+            <state relative-caret-position="391">
               <caret line="23" column="50" lean-forward="true" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
             </state>
           </provider>
@@ -178,9 +176,9 @@
         <option value="$PROJECT_DIR$/public/css/main.css" />
         <option value="$PROJECT_DIR$/public/js/app.js" />
         <option value="$PROJECT_DIR$/views/upload.pug" />
-        <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/views/edit.pug" />
         <option value="$PROJECT_DIR$/views/delete.pug" />
+        <option value="$PROJECT_DIR$/index.js" />
       </list>
     </option>
   </component>
@@ -292,12 +290,12 @@
       <workItem from="1555357642303" duration="529000" />
       <workItem from="1555358646077" duration="6414000" />
       <workItem from="1555407829147" duration="27750000" />
-      <workItem from="1555855535247" duration="70534000" />
+      <workItem from="1555855535247" duration="70602000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197321000" />
+    <option name="totallyTimeSpent" value="197389000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -607,13 +605,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/upload.pug">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -651,8 +642,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/delete.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
+        <state relative-caret-position="391">
           <caret line="23" column="50" lean-forward="true" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
         </state>
       </provider>
     </entry>
