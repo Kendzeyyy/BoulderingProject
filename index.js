@@ -13,14 +13,16 @@ const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
 
-/* Commented out for Jelastic
+/*
+
+ */
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 const options = {
     key: sslkey,
     cert: sslcert
 };
- */
+
 
 
 console.log(process.env);
@@ -43,11 +45,11 @@ const upload = multer ({
 }).single('image');
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
-//                                                                                                                    /admin
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/BoulderingProject`, { useNewUrlParser: true }).then(() => {
+//                                                                                                                    /BoulderingProject /admin
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/admin`, { useNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
-    //https.createServer(options, app).listen(process.env.APP_PORT);        // Local
-    app.listen(process.env.APP_PORT);                                       // Jelastic
+    https.createServer(options, app).listen(process.env.APP_PORT);        // Local
+    //app.listen(process.env.APP_PORT);                                       // Jelastic
 }, err => {
     console.log('Connection to db failed :( ' + err);
 });

@@ -13,24 +13,25 @@ html(lang='en')
             .glass
                 h1(align='center') Edit post
                 .fileupload
-                    form(action='edit?_method=PUT' method='post' enctype="application/x-www-form-urlencoded")
-                        | ID:
-                        input(type='text', name='_id', placeholder='5c9ddeb1...')
+                    //form(method='PUT' action='/' enctype="application/x-www-form-urlencoded")
+                    form(action='/file/?_method=PUT' method='post' enctype="application/x-www-form-urlencoded")
+                        |
+                        input(type='hidden', name='_id', value=file.id)
                         br
                         | Title:
-                        input(type='text', name='name')
+                        input(type='text', name='title', value=file.title)
                         br
                         |   Description:
-                        input(type='text', name='description')
+                        input(type='text', name='description' value=file.description)
                         br
                         |   Category:
-                        input(list='category', name='gategory', placeholder='Kiipeilyareena / Boulderkeskus')
+                        input(list='category', name='gategory', value=file.category)
                         datalist#category
                             option(value='Salmisaari')
                             option(value='Kalasatama')
                         br
                         |   Location:
-                        input(list='location', name='location', placeholder='Salmisaari, Espoo...')
+                        input(list='location', name='location', value=file.location)
                         datalist#location
                             option(value='Salmisaari')
                             option(value='Kalasatama')

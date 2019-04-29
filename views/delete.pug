@@ -13,11 +13,14 @@ html(lang='en')
       .glass
         h1(align='center') Delete post
         .fileupload
-          form(action='delete?_method=DELETE' method='post' enctype="application/x-www-form-urlencoded")
-            | ID:
-            input(type='text' name='_id' placeholder='5cbda2f04b...')
+          form(action='/file/?_method=DELETE' method='post' enctype="application/x-www-form-urlencoded")
+            |
+            input(type='hidden', name='_id', value=file.id)
             br
-            input(type='submit')
+            |
+            input(type=text, value=file.title, readonly='')
+            br
+            input(type='submit' value='Delete')
           .bottom-input
             a(href='index.pug')
             form(method='get', action='/home')

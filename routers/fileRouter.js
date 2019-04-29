@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const fileController = require('../controllers/fileController');
-const fileModel = require ('../models/fileUpload');
+const File = require ('../models/fileUpload');
 const methodOverride = require('method-override');
 
 router.use(bodyParser.json());
@@ -30,15 +30,18 @@ router.get('/add', (req, res) => {
     res.render('upload.pug');
 });
 
-router.get('/edit', (req, res) => {
-    res.render('edit.pug');
-    console.log('in router.get edit');
+router.get('/edit/:id', (req, res) => {
+    File.findById(req.params.id).then(file =>{
+        console.log(file);
+        res.render('edit.pug', {file: file});
+    });
 });
 
-router.get('/delete', (req, res) => {
-    res.render('delete.pug');
-    console.log('in router.get delete');
-
+router.get('/delete/:id', (req, res) => {
+    File.findById(req.params.id).then(file =>{
+        console.log(file);
+        res.render('delete.pug', {file: file});
+    });
 });
 
 
@@ -55,7 +58,7 @@ router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
 router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
     console.log('reqbody: ' + req.body);
     console.log('reqbodyname: ' + req.body.name);
-    fileModel.create(req.body);
+    File.create(req.body);
 
     File.find()
         .where('name').equals(req.body.name)
@@ -63,7 +66,7 @@ router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
             id =>{
                 console.log('THIS IS THE ID' + id);
                 Cat.updateOne(
-                    fileModel.create(req.body)).then(c => {
+                    File.create(req.body)).then(c => {
                     res.send('File edited: ' + req.body.name);
                 }, err => {
                     res.send('Error: ' + err);
@@ -111,7 +114,7 @@ router.use('/upload', function(req, res, next) {
 router.use('/upload', function(req, res){
     console.log(req.body);
     console.log(req.body.path + req.body.filename);
-    fileModel.create(req.body);
+    File.create(req.body);
 
     const newFile = new File();
     newFile.img.data = fs.readFileSync(req.files.path);
@@ -122,36 +125,35 @@ router.use('/upload', function(req, res){
         });
 });
 
-
 // update by id---------------------------------------------------------------------------------------------------------
-router.put('/edit', bodyParser.urlencoded({extended: true}), (req, res) => {
+router.put('/', bodyParser.urlencoded({extended: true}), (req, res) => {
     console.log('EDIT');
     console.log(req.body);
     const id = req.body._id;
     console.log(id);
-    fileModel.findByIdAndUpdate({_id: id}, req.body).then(function () {
-        fileModel.findOne({_id: req.params.id}).then(function (file) {
-            res.send(file);
-            fileModel.create(req.body);
-        });
+    File.findByIdAndUpdate({_id: id}, req.body).then(file => {
+        File.create({_id: id}, req.body);
+        //console.log(file);
+        //res.send({type: 'UPDATE'});
+        res.send('OK');
     });
-    res.send({type: 'UPDATE'});
 });
 
 // delete by id---------------------------------------------------------------------------------------------------------
-router.delete('/delete', bodyParser.urlencoded({extended: true}), (req, res) => {
+router.delete('/', bodyParser.urlencoded({extended: true}), (req, res) => {
     console.log('DELETE');
     console.log(req.body);
     const id = req.body._id;
     console.log(id);
-    fileModel.findOneAndDelete({_id: id}).then(file => {
-        res.redirect('/home');
+    File.findByIdAndRemove({_id: id}).then(file => {
+        //res.redirect('/');
         //res.send(file);
-        //res.sendStatus(200);
+        //res.redirect('/');
+        res.sendStatus(200);
     }, err => {
         res.send('Error ' + err);
     });
-    console.log('executed delete method');
+    console.log('delete method DONE');
 });
 
 module.exports = router;
