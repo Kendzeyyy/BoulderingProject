@@ -15,17 +15,17 @@ html(lang='en')
         .fileupload
           // Field to fill infos
           form(action='/upload', method='post', enctype='multipart/form-data')
-            | Title:
+            |                     Title:
             input(type='text', name='title')
+            br
+            |                     Description:
+            input(type='text', name='description')
             br
             |                     Category:
             input(list='category', name='category')
             datalist#category
-              option(value='Salmisaari')
-              option(value='Kalasatama')
-            br
-            |                     Description:
-            input(type='text', name='description')
+              option(value='Kiipeilyareena')
+              option(value='Boulderkeskus')
             br
             |                     Location:
             input(list='location', name='location')

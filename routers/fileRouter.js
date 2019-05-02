@@ -134,9 +134,12 @@ router.put('/', bodyParser.urlencoded({extended: true}), (req, res) => {
     File.findByIdAndUpdate({_id: id}, req.body).then(file => {
         File.create({_id: id}, req.body);
         //console.log(file);
-        //res.send({type: 'UPDATE'});
-        res.send('OK');
+    }, err => {
+        res.send('Error ' + err);
     });
+    //res.send({type: 'UPDATE'});
+    //res.send('OK');
+    res.redirect('/');
 });
 
 // delete by id---------------------------------------------------------------------------------------------------------
@@ -146,14 +149,13 @@ router.delete('/', bodyParser.urlencoded({extended: true}), (req, res) => {
     const id = req.body._id;
     console.log(id);
     File.findByIdAndRemove({_id: id}).then(file => {
-        //res.redirect('/');
         //res.send(file);
-        //res.redirect('/');
-        res.sendStatus(200);
     }, err => {
         res.send('Error ' + err);
     });
     console.log('delete method DONE');
+    //res.sendStatus(200);
+    res.redirect('/');
 });
 
 module.exports = router;

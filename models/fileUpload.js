@@ -5,10 +5,9 @@ const Schema = mongoose.Schema;
 // Create Schema and Model
 const fileSchema = new Schema({
     title: String,
-    category: String, //enum Kiipeilyareena or Boulderkeskus
+    category: {type: String, enum: ['Kiipeilyareena', 'Boulderkeskus']},
     description: String,
-    location: String,
-    //location: {type: String, enum: ['Salmisaari', 'Kalasatama', 'Espoo', 'Pasila', 'Herttoniemi', 'Konala']},
+    location: {type: String, enum: ['Salmisaari', 'Kalasatama', 'Espoo', 'Pasila', 'Herttoniemi', 'Konala']},
     imageurl: {data: Buffer, contentType: String},
     imagename: String
 });

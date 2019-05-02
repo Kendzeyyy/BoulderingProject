@@ -6,9 +6,10 @@ const sharp = require('sharp');
 const mongoose = require('mongoose');
 const path = require('path');
 const multer = require('multer');
-const location = require('./routers/location');
-const fileRouters = require('./routers/fileRouter');
-const imageModel = require ('./models/fileUpload');
+const location = require('./location');
+const fileRouters = require('./fileRouter');
+const users = require('./users');
+const imageModel = require ('../models/fileUpload');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
@@ -22,8 +23,6 @@ const options = {
     key: sslkey,
     cert: sslcert
 };
-
-
 
 console.log(process.env);
 
@@ -130,22 +129,11 @@ app.get('/home', (req, res) => {
     res.render('index.pug');
 });
 
-app.get('/login', (req, res) => {
-   res.render('login.pug');
-});
-
-app.get('/signup', (req, res) => {
-   res.render('signup.pug');
-});
-
-app.get('/add', (req, res) => {
-   res.render('upload.pug');
-});
-
 // Middleware
 app.set('view engine', 'pug');
 app.enable('trust proxy');
 app.use('/file', fileRouters);
+app.use('/users', users);
 app.use('/location', location);
 app.use(express.static('public'));
 app.use(express.static('modules'));

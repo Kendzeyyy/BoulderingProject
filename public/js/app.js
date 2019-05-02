@@ -9,12 +9,8 @@ fetch('./file/all').then((response) => {
                                                                   <ul>                                                                
                                                                     <h2>${file.title}</h2>
                                                                         <form style="float: right">      
-                                                                            <!--                                                                     
-                                                                            <a href="/file/edit" style="padding-right: 45px">Edit</a>
-                                                                            <a href="/file/delete" style="padding-right: 45px">Delete</a>
-                                                                            -->
-                                                                            <a href='/file/edit/${file._id}' style="padding-right: 45px">Edit</a>
-                                                                            <a href='/file/delete/${file._id}' style="padding-right: 45px">Delete</a>
+                                                                            <a href='/file/edit/${file._id}' style="padding-right: 45px"<button type="button">Edit</button></a>
+                                                                            <a href='/file/delete/${file._id}' style="padding-right: 45px"<button type="button">Delete</button></a>
                                                                         </form>                                                                                                                            
                                                                     <img src="uploads/${file.imagename}" width="620" height="auto">                                                               
                                                                     <p>${file.description}</p>
