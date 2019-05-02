@@ -56,8 +56,8 @@ router.post('/register', (req, res) => {
         User.findOne({ username: username})
             .then(user => {
                 if(user) {
-                    // User exists
-                    res.render('register', {
+                    // If User exists
+                    res.render('register',{
                         username,
                         password,
                         password2
@@ -69,10 +69,38 @@ router.post('/register', (req, res) => {
                        password2: password2
                     });
                     console.log(newUser);
-                    res.send('SUCCESS');
+                    //res.send('SUCCESS');
+
+                    // Hash password
+                    bcrypt.genSalt(10, (err, salt) =>
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if(err) throw err;
+
+                            // Set password to hashed
+                            newUser.password = hash;
+                            console.log('password ' + hash);
+
+                            // Save the user
+                            newUser.save()
+                                .then(user => {
+                                    console.log('User saved to mongoDB and redirected to login page')
+                                    res.redirect('login');
+                                })
+                                .catch(err => console.log(err));
+                        }));
                 }
             });
     }
+});
+
+// Login Handle
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/home',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next);
+
 });
 
 module.exports = router;

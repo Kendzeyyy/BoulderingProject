@@ -13,6 +13,11 @@ const imageModel = require ('../models/fileUpload');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
+const passport = require('passport');
+const session = require('express-session');
+
+// Passport config
+require('../config/passport')(passport);
 
 /*
 
@@ -66,7 +71,6 @@ app.use((req, res, next) => {
 app.post('/upload', function(req, res, next){
     upload(req, res, (err) => {
         if(err){
-            //res.sendStatus(400);
             res.send(err);
         } else{
             if (req.file === undefined){
@@ -129,6 +133,17 @@ app.get('/home', (req, res) => {
     res.render('index.pug');
 });
 
+// Express Session
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // Middleware
 app.set('view engine', 'pug');
 app.enable('trust proxy');
@@ -138,3 +153,4 @@ app.use('/location', location);
 app.use(express.static('public'));
 app.use(express.static('modules'));
 app.use(helmet());
+
