@@ -20,7 +20,7 @@ module.exports = function (passport) {
                         if(err) throw err;
 
                         if(isMatch){
-                            console.log('Password match');
+                            console.log('Password match! You are now logged in as ' + username);
                             return done(null, user);
                         } else {
                             console.log('Password incorrect');
@@ -42,5 +42,4 @@ module.exports = function (passport) {
             done(err, user);
         });
     });
-
 }

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const fileController = require('../controllers/fileController');
 const File = require ('../models/fileUpload');
 const methodOverride = require('method-override');
+const { ensureAuthenticated } = require('../config/auth');
 
 router.use(bodyParser.json());
 router.use(express.static('public'));
@@ -26,18 +27,18 @@ router.get('/all', (req, res) => {
     });
 });
 
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated, (req, res) => {
     res.render('upload.pug');
 });
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     File.findById(req.params.id).then(file =>{
         console.log(file);
         res.render('edit.pug', {file: file});
     });
 });
 
-router.get('/delete/:id', (req, res) => {
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     File.findById(req.params.id).then(file =>{
         console.log(file);
         res.render('delete.pug', {file: file});
