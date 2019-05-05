@@ -20,14 +20,14 @@ const session = require('express-session');
 require('../config/passport')(passport);
 
 /* Comment the ssl keys out for Jelastic
-
- */
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 const options = {
     key: sslkey,
     cert: sslcert
 };
+ */
+
 
 console.log(process.env);
 
@@ -50,15 +50,15 @@ const upload = multer ({
 
 // Connect to mongodb---------------------------------------------------------------------------------------------------
 //                                                                                                                    /BoulderingProject /admin
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/admin`, { useNewUrlParser: true }).then(() => {
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@${process.env.DB_HOST}:${process.env.DB_PORT}/BoulderingProject`, { useNewUrlParser: true }).then(() => {
     console.log('Connected successfully.');
-    https.createServer(options, app).listen(process.env.APP_PORT);        // Local
-    //app.listen(process.env.APP_PORT);                                       // Jelastic
+    //https.createServer(options, app).listen(process.env.APP_PORT);        // Local
+    app.listen(process.env.APP_PORT);                                       // Jelastic
 }, err => {
     console.log('Connection to db failed :( ' + err);
 });
 
-// https redirection
+// https redirection----------------------------------------------------------------------------------------------------
 app.use((req, res, next) => {
     if (req.secure) {
         next();
@@ -84,13 +84,13 @@ app.post('/upload', function(req, res, next){
 });
 
 app.post('/upload', (req, res) => {
-    //console.log('Posted by ' + req.user.username)
     const body = req.body;
     const file = req.file;
     console.log(body);
     console.log(body.path + body.filename);
+    //console.log('User ' + req.user.username);
     File.create({
-        //uploader: req.user.username,
+        uploader: req.body.user,
         title: body.title,
         category: body.category,
         description: body.description,
@@ -103,11 +103,12 @@ app.post('/upload', (req, res) => {
 
 //PUG-------------------------------------------------------------------------------------------------------------------
 
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
     res.redirect('/home');
 });
 
 app.get('/home', (req, res) => {
+    console.log('Logged in user ' + req.user);
     res.render('index.pug');
 });
 
@@ -120,7 +121,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // Middleware
 app.set('view engine', 'pug');

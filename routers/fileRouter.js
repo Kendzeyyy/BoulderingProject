@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const fileController = require('../controllers/fileController');
 const File = require ('../models/fileUpload');
 const methodOverride = require('method-override');
@@ -76,36 +77,6 @@ router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
             }, err => {
                 res.send('Error: ' + err);
             });
-});
-
-router.post('/upload', function(req, res, next){
-    upload(req, res, (err) => {
-        if(err){
-            res.sendStatus(400);
-        } else{
-            if (req.file === undefined){
-                res.sendStatus(404);
-            } else {
-                console.log(req.file);
-                res.sendStatus(200);
-                next();
-            }
-        }
-    });
-});
-
-router.use('/upload', function(req, res){
-    console.log(req.body);
-    console.log(req.body.path + req.body.filename);
-    File.create({
-        uploader: req.body.username,
-        title: req.body.title,
-        category: req.body.category,
-        description: req.body.description,
-        location: req.body.location,
-        image: req.body.image
-    });
-    res.redirect('/home');
 });
 
 // update by id---------------------------------------------------------------------------------------------------------
