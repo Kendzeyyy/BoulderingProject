@@ -23,7 +23,7 @@ The project is using MVC (Model-View-Controller) structure.
 * Model folder contains schemas of the file and users.  
 * View folder has a pug jade views which in this project replaced the html.  
 * Controller folder contains methods which is used by classes in router (In this case fetching the file json data from MongoDB).  
-In addition, there is public folder which contains css, js and uploaded images. In js folder has app.js script which fetch all json data from controller and post it to the front page and the css is to make project look more prettier. Images are saved in upload folder, but the imageurl and name are saved in MongoDB. There is also a config folder which has authentication and passport for register and login.
+In addition, there is public folder which contains css, js and uploaded images. In js folder has app.js script which fetch all json data from controller and post it to the front page and the css is to make project look more prettier. Images are saved in upload folder, but the imageurl and name are saved in MongoDB. There is also a config folder which has authentication and passport-functionality for register and login.
 
 ---
 
