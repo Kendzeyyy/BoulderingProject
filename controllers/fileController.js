@@ -14,6 +14,7 @@ exports.file_create_post = (data) => {
     console.log(data);
     return File.create(data).then((item) => {
         File.create({
+            uploader: req.body.username,
             title: req.body.title,
             category: req.body.category,
             description: req.body.description,

@@ -9,7 +9,7 @@ const multer = require('multer');
 const location = require('./location');
 const fileRouters = require('./fileRouter');
 const users = require('./users');
-const imageModel = require ('../models/fileUpload');
+const File = require ('../models/fileUpload');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
@@ -19,7 +19,7 @@ const session = require('express-session');
 // Passport config
 require('../config/passport')(passport);
 
-/*
+/* Comment the ssl keys out for Jelastic
 
  */
 const sslkey = fs.readFileSync('ssl-key.pem');
@@ -83,31 +83,14 @@ app.post('/upload', function(req, res, next){
     });
 });
 
-app.use('/upload', function(req, res, next) {
-    // do small 200x200 thumbnail
-    sharp(req.file.path)
-        .resize(200, 200)
-        .toFile('public/img/small/' + Date.now() + '200x200.jpg', (err) => {
-        });
-    next();
-});
-
-app.use('/upload', function(req, res, next) {
-    // do medium 400x400 thumbnail
-    sharp(req.file.path)
-        .resize(400, 400)
-        .toFile('public/img/medium/' + Date.now() + '400x400.jpg', (err) => {
-        });
-    res.send(req.file);
-    next();
-});
-
-app.use('/upload', (req, res) => {
+app.post('/upload', (req, res) => {
+    //console.log('Posted by ' + req.user.username)
     const body = req.body;
     const file = req.file;
     console.log(body);
     console.log(body.path + body.filename);
-    imageModel.create({
+    File.create({
+        //uploader: req.user.username,
         title: body.title,
         category: body.category,
         description: body.description,
@@ -115,12 +98,7 @@ app.use('/upload', (req, res) => {
         imageurl: file.path,
         imagename: file.filename
     });
-
-    const data = JSON.stringify(imageModel, null, 2);
-    fs.writeFile('public/data.json', data, (err) => {
-        if (err) throw err;
-        console.log('Data written to data.json file');
-    });
+    res.redirect('/');
 });
 
 //PUG-------------------------------------------------------------------------------------------------------------------

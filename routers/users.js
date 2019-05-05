@@ -53,7 +53,7 @@ router.post('/register', (req, res) => {
         // Validation passed
         //res.send('Welcome ' + username);
         console.log(req.body);
-        User.findOne({ username: username})
+        User.findOne({ username: req.body.username})
             .then(user => {
                 if(user) {
                     // If User exists
@@ -68,8 +68,7 @@ router.post('/register', (req, res) => {
                        password: password,
                        password2: password2
                     });
-                    console.log(newUser);
-                    //res.send('SUCCESS');
+                    console.log(newUser + ' created');
 
                     // Hash password
                     bcrypt.genSalt(10, (err, salt) =>
@@ -83,8 +82,9 @@ router.post('/register', (req, res) => {
                             // Save the user
                             newUser.save()
                                 .then(user => {
-                                    console.log('User saved to mongoDB and redirected to login page')
-                                    res.redirect('login');
+                                    console.log('User saved to mongoDB and redirected to login page');
+                                    res.redirect('/users/login');
+                                    console.log('In log in page');
                                 })
                                 .catch(err => console.log(err));
                         }));
@@ -98,7 +98,6 @@ router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/home',
         failureRedirect: '/users/login',
-        //failureFlash: true
     })(req, res, next);
 
 });

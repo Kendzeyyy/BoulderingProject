@@ -47,9 +47,10 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
 
 
 // create new post------------------------------------------------------------------------------------------------------
-router.post('/post', bodyParser.urlencoded({extended: true}), (req, res) => {
+router.post('/upload', ensureAuthenticated, (req, res) => {
     const data = req.body;
     console.log(data);
+    console.log(req.body.username);
     fileController.file_create_post(data).then((result) => {
         res.send(result);
     });
@@ -66,7 +67,7 @@ router.post('/update', bodyParser.urlencoded({extended: true}), (req, res) => {
         .then(
             id =>{
                 console.log('THIS IS THE ID' + id);
-                Cat.updateOne(
+                File.updateOne(
                     File.create(req.body)).then(c => {
                     res.send('File edited: ' + req.body.name);
                 }, err => {
@@ -93,37 +94,18 @@ router.post('/upload', function(req, res, next){
     });
 });
 
-router.use('/upload', function(req, res, next) {
-    // do small 200x200 thumbnail
-    sharp(req.file.path)
-        .resize(200, 200)
-        .toFile('public/img/small/' + Date.now() + '200x200.jpg', (err) => {
-        });
-    next();
-});
-
-router.use('/upload', function(req, res, next) {
-    // do medium 400x400 thumbnail
-    sharp(req.file.path)
-        .resize(400, 400)
-        .toFile('public/img/medium/' + Date.now() + '400x400.jpg', (err) => {
-        });
-    res.send(req.file);
-    next();
-});
-
 router.use('/upload', function(req, res){
     console.log(req.body);
     console.log(req.body.path + req.body.filename);
-    File.create(req.body);
-
-    const newFile = new File();
-    newFile.img.data = fs.readFileSync(req.files.path);
-    //newFile.img.contentType = 'image/jpg/png';
-    newFile.save();
-    sharp(req.file.path)
-        .toFile('public/data.json', (err) => {
-        });
+    File.create({
+        uploader: req.body.username,
+        title: req.body.title,
+        category: req.body.category,
+        description: req.body.description,
+        location: req.body.location,
+        image: req.body.image
+    });
+    res.redirect('/home');
 });
 
 // update by id---------------------------------------------------------------------------------------------------------
@@ -134,12 +116,10 @@ router.put('/', bodyParser.urlencoded({extended: true}), (req, res) => {
     console.log(id);
     File.findByIdAndUpdate({_id: id}, req.body).then(file => {
         File.create({_id: id}, req.body);
-        //console.log(file);
+        console.log(file);
     }, err => {
         res.send('Error ' + err);
     });
-    //res.send({type: 'UPDATE'});
-    //res.send('OK');
     res.redirect('/');
 });
 
@@ -150,12 +130,10 @@ router.delete('/', bodyParser.urlencoded({extended: true}), (req, res) => {
     const id = req.body._id;
     console.log(id);
     File.findByIdAndRemove({_id: id}).then(file => {
-        //res.send(file);
     }, err => {
         res.send('Error ' + err);
     });
     console.log('delete method DONE');
-    //res.sendStatus(200);
     res.redirect('/');
 });
 
