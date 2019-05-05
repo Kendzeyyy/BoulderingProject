@@ -21,28 +21,28 @@ Tools:
 
 #### Home 
 
-*`'/home' -  GET`               -   home page with all posts  
-*`'/upload' -  POST`            -   save image to folder and upload new post  
+* `'/home' -  GET`               -   home page with all posts  
+* `'/upload' -  POST`            -   save image to folder and upload new post  
 
 #### File API
 
-*`'/file/all' -  GET`           -   get posts from mongodb (title, description... )  
-*`'/file/add' -  GET`           -   upload page view  
-*`'/file/delete/:id' -  GET`    -   delete page view  
-*`'/file/edit/:id' -  GET`      -   edit page view  
-*`'/file/' -  PUT`              -   for editing posts (req.body.id)  
-*`'/file/' -  DELETE`           -   for deleting posts (req.body.id)  
+* `'/file/all' -  GET`           -   get posts from mongodb (title, description... )  
+* `'/file/add' -  GET`           -   upload page view  
+* `'/file/delete/:id' -  GET`    -   delete page view  
+* `'/file/edit/:id' -  GET`      -   edit page view  
+* `'/file/' -  PUT`              -   for editing posts (req.body.id)  
+* `'/file/' -  DELETE`           -   for deleting posts (req.body.id)  
 
 #### User API
 
-*`'/users/login' -  GET`        -   login page view  
-*`'/users/login' -  POST`       -   check if user exist and login  
-*`'/users/register' -  GET`     -   register page view  
-*`'/users/register' -  POST`    -   create user  
-*`'/users/logout' -  GET`       -   log out  
+* `'/users/login' -  GET`        -   login page view  
+* `'/users/login' -  POST`       -   check if user exist and login  
+* `'/users/register' -  GET`     -   register page view  
+* `'/users/register' -  POST`    -   create user  
+* `'/users/logout' -  GET`       -   log out  
 
 #### Location API
 
-*`'/location' -  GET`           -   get all location pugs  
+* `'/location' -  GET`           -   get all location pugs  
 
 ---
